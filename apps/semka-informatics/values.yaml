@@ -24,3 +24,13 @@ resources:
   limits:
     cpu: 300m
     memory: 256Mi
+
+env:
+  APP_HOST: "0.0.0.0"
+  APP_PORT: "8000"
+  FILES_DIR: "/srv/app/code_storage"
+  STATIC_DIR: "/srv/app/static"
+  TEMPLATES_DIR: "/srv/app/templates"
+  VIEWS_FILE: "/srv/app/views.json"
+
+secretEnv: {}

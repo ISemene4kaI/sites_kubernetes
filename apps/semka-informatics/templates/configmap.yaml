@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+  namespace: semka-informatics
+data:
+  APP_HOST: {{ .Values.env.APP_HOST | quote }}
+  APP_PORT: {{ .Values.env.APP_PORT | quote }}
+  FILES_DIR: {{ .Values.env.FILES_DIR | quote }}
+  STATIC_DIR: {{ .Values.env.STATIC_DIR | quote }}
+  TEMPLATES_DIR: {{ .Values.env.TEMPLATES_DIR | quote }}
+  VIEWS_FILE: {{ .Values.env.VIEWS_FILE | quote }}
