@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: semka-informatics
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ISemene4kaI/sites_kubernetes
+    targetRevision: main
+    path: apps/semka-informatics
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: semka-informatics
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
