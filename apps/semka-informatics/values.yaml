@@ -30,9 +30,9 @@ resources:
 env:
   APP_HOST: "0.0.0.0"
   APP_PORT: "8000"
-  FILES_DIR: "/app/code_storage"
-  STATIC_DIR: "/app/static"
-  TEMPLATES_DIR: "/app/templates"
-  VIEWS_FILE: "/app/views.json"
+  FILES_DIR: "/app/app/code_storage"
+  STATIC_DIR: "/app/app/static"
+  TEMPLATES_DIR: "/app/app/templates"
+  VIEWS_FILE: "/app/app/views.json"
 
 secretEnv: {}
