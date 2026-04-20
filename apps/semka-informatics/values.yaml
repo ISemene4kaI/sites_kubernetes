@@ -20,7 +20,6 @@ ingress:
   pathType: Prefix
 
   tls:
-    hosts: isemene4kai.ru
     secretName: isemene4kai-ru-tls
 
 resources:
