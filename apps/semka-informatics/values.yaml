@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/isemene4kai/semka-informatics
-  tag: "ef9b4d810fc75d17740e3fee892329c81e004741"
+  tag: "887aded8c7c00c8f983c7c651ccc04992a06ff04"
   pullPolicy: Always
 
 service:
