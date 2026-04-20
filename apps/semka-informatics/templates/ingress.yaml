@@ -4,8 +4,15 @@ kind: Ingress
 metadata:
   name: {{ .Chart.Name }}
   namespace: {{ .Values.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    acme.cert-manager.io/http01-ingress-ingressclassname: traefik
 spec:
   ingressClassName: {{ .Values.ingress.className }}
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.tls.secretName }}
   rules:
     - host: {{ .Values.ingress.host }}
       http:

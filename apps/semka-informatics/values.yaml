@@ -19,6 +19,10 @@ ingress:
   path: /
   pathType: Prefix
 
+  tls:
+    hosts: isemene4kai.ru
+    secretName: isemene4kai-ru-tls
+
 resources:
   requests:
     cpu: 100m
