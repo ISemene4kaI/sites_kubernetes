@@ -10,6 +10,21 @@ service:
   port: 80
   targetPort: 8000
 
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+
+podSecurityContext: {}
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  seccompProfile:
+    type: RuntimeDefault
+
 namespace: semka-informatics
 
 ingress:
