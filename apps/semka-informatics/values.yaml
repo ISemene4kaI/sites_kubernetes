@@ -51,6 +51,14 @@ env:
   FILES_DIR: "/app/app/code_storage"
   STATIC_DIR: "/app/app/static"
   TEMPLATES_DIR: "/app/app/templates"
-  VIEWS_FILE: "/app/app/views.json"
+  VIEWS_FILE: "/data/views.json"
 
 secretEnv: {}
+
+persistence:
+  enabled: true
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 1Gi
+  mountPath: /data

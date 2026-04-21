@@ -13,6 +13,12 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      volumes:
+        {{- if .Values.persistence.enabled }}
+        - name: app-data
+          persistentVolumeClaim:
+            claimName: {{ .Chart.Name }}-data
+        {{- end }}
       serviceAccountName: {{ if .Values.serviceAccount.create }}{{ default .Chart.Name .Values.serviceAccount.name }}{{ else }}{{ default "default" .Values.serviceAccount.name }}{{ end }}
       automountServiceAccountToken: {{ .Values.serviceAccount.automountServiceAccountToken }}
       {{- with .Values.podSecurityContext }}
@@ -25,6 +31,11 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+          volumeMounts:
+            {{- if .Values.persistence.enabled }}
+            - name: app-data
+              mountPath: {{ .Values.persistence.mountPath }}
+            {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
