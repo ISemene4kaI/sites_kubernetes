@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ghcr.io/isemene4kai/semka-informatics
-  tag: "0caaec0a47941e8b0fdbe781c2777907dd773e85"
+  tag: "latest"
   pullPolicy: Always
 
 service:
@@ -15,7 +15,12 @@ serviceAccount:
   name: ""
   automountServiceAccountToken: false
 
-podSecurityContext: {}
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
 
 containerSecurityContext:
   allowPrivilegeEscalation: false

@@ -132,9 +132,10 @@ requirements.txt или аналогичный файл зависимостей
 - `latest` — для быстрого просмотра последней версии;
 - `${{ github.sha }}` — для точной привязки образа к конкретному коммиту.
 
-Основной рабочий тег для Kubernetes — это именно **SHA коммита**, потому что он однозначный и позволяет точно понимать, какая версия образа запущена.
-
-`latest` допустим как вспомогательный тег, но не как основной способ деплоя в Kubernetes.
+Kubernetes запускает тег `latest`, а Argo CD Image Updater отслеживает изменение
+его digest со стратегией `digest`. Это важно: один `imagePullPolicy: Always` не
+создаёт новый rollout. SHA-тег сохраняется в registry для аудита и ручного
+отката, но его больше не нужно переносить в `values.yaml` после каждого релиза.
 
 ---
 
@@ -239,13 +240,13 @@ Kubernetes использует **строку из поля `image` в Deployme
 ```yaml
 image:
   repository: ghcr.io/isemene4kai/semka-informatics
-  tag: "887aded8c7c00c8f983c7c651ccc04992a06ff04"
+  tag: "latest"
 ```
 
 После рендера Helm получается:
 
 ```yaml
-image: "ghcr.io/isemene4kai/semka-informatics:887aded8c7c00c8f983c7c651ccc04992a06ff04"
+image: "ghcr.io/isemene4kai/semka-informatics:latest"
 ```
 
 Это и есть точный адрес, по которому kubelet на ноде будет тянуть контейнерный образ.
@@ -289,8 +290,11 @@ tags: |
 ```yaml
 image:
   repository: ghcr.io/isemene4kai/semka-informatics
-  tag: "887aded8c7c00c8f983c7c651ccc04992a06ff04"
+  tag: "latest"
 ```
+
+Фактически Image Updater передаёт в Argo CD найденный digest, поэтому смена
+содержимого `latest` приводит к изменению Deployment и новому rollout.
 
 ### В шаблоне Deployment
 
@@ -602,4 +606,5 @@ ghcr.io/isemene4kai/<image>:<tag>
 ```
 
 ### Какой тег использовать для боевого деплоя
-SHA коммита, а не `latest`.
+`latest`, отслеживаемый Image Updater по digest. SHA коммита сохраняется для
+аудита и ручного отката.

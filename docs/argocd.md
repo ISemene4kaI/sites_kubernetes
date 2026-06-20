@@ -125,6 +125,11 @@ Namespace, куда попадут ресурсы приложения.
 
 То есть после `git push` Argo CD не ждёт ручной кнопки Sync, а сам начинает приводить кластер к состоянию из Git.
 
+Новый контейнер под тем же тегом `latest` сам по себе не является изменением
+Git-манифеста. Поэтому отдельно установлен Argo CD Image Updater: он сравнивает
+digest образа в GHCR и передаёт новый digest в Application, после чего
+автоматический sync выполняет rollout Deployment.
+
 ### `prune: true`
 Если ресурс раньше был в Git, а потом его удалили из репозитория, Argo CD удалит его и из кластера.
 
@@ -212,6 +217,16 @@ argocd login localhost:8080 --insecure
 
 ```bash
 kubectl apply -f argocd/semka-informatics.yaml
+```
+
+Для автоматического обновления образов один раз установить Image Updater и его
+конфигурацию (CR применяется только после появления CRD):
+
+```bash
+kubectl apply -f argocd/image-updater.yaml
+kubectl wait --for=condition=Established \
+  crd/imageupdaters.argocd-image-updater.argoproj.io --timeout=180s
+kubectl apply -f argocd/semka-informatics-image-updater.yaml
 ```
 
 Проверка:
